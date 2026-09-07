@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://syed-moiz-kazmi-portfolio.ardent-zebra-6352.chatgpt.site/sitemap.xml

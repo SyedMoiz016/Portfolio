@@ -1,0 +1,1 @@
+{"name":"smk-portfolio-delivery","version":"1.0.0","private":true,"type":"module","scripts":{"build":"npm --prefix frontend run build && node scripts/stage-site.mjs","test":"npm --prefix backend test"}}
