@@ -9,3 +9,9 @@
 - Content: SocialGen AI is featured as requested. Preview artwork and other example projects are labeled concepts. Replace them with actual screenshots, links, dates and verified statistics as appropriate.
 
 See README.md for local startup, API deployment, database integration testing and content replacement instructions.
+
+## Gmail notification update
+
+- 15 API/email behavior tests passed; the isolated MongoDB integration test remains skipped without `TEST_MONGO_URI`.
+- Verified notification addressing and Reply-To, post-persistence ordering, absent configuration, SMTP rejection and failure isolation using stubs. No real emails were sent by tests.
+- Gmail delivery requires `SMTP_PASS` in the backend environment; no live delivery has been verified.

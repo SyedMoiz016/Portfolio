@@ -176,3 +176,29 @@ portfolio/
 ```
 
 Future projects/services/skills CRUD can follow the same model/service/controller/router boundaries. Add authentication and authorization before exposing management operations. The current public API exposes only health and contact submission.
+
+## Gmail notifications
+
+After a contact is saved in MongoDB, the backend attempts an email notification to `CONTACT_NOTIFICATION_EMAIL`, configured as `syedabdulmoizkazmi0618@gmail.com`. Notifications include the submitted fields and set Reply-To to the client's address. The sender is the server's configured SMTP account, never a client-controlled value.
+
+In `backend/.env`:
+
+```dotenv
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+SMTP_USER=syedabdulmoizkazmi0618@gmail.com
+SMTP_PASS=
+CONTACT_NOTIFICATION_EMAIL=syedabdulmoizkazmi0618@gmail.com
+```
+
+Enable Google 2-Step Verification and create an App Password: https://support.google.com/accounts/answer/185833 . Paste that App Password into `SMTP_PASS` locally, without spaces, and restart the backend. Do not use your regular Google password or commit this file. If App Passwords are unavailable for your account, configure an authenticated SMTP provider instead.
+
+Deploy these variables as secrets/settings on the backend host as well. The privately hosted static frontend does not send mail itself. No real email delivery has been verified without SMTP credentials.
+
+Notifications are best-effort, with a bounded wait before the HTTP response. An email failure is logged server-side but does not discard the saved contact or report a failed submission to the client. There is no automatic retry queue; inspect MongoDB if notifications fail. SMTP acceptance does not guarantee inbox placement. Tests stub delivery and never send real emails.
+
+### Troubleshooting Gmail authentication
+
+From `backend`, run `npm run email:verify`. This checks SMTP connection and authentication without sending an email or writing a contact. Gmail App Password display spaces are removed automatically; passwords for other SMTP providers are preserved. Diagnostics show fixed guidance rather than raw SMTP errors or credentials.
+
+If Gmail rejects authentication, create a new App Password while signed into the account specified by `SMTP_USER`, replace `SMTP_PASS` in `backend/.env`, and rerun verification. Restart the backend manually after editing `.env` because Node watch mode may not restart for environment-file changes. If a password was exposed in a screenshot, revoke it and replace it locally.

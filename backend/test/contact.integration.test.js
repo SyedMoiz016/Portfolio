@@ -5,6 +5,8 @@ import mongoose from "mongoose";
 import request from "supertest";
 import { createApp } from "../app.js";
 import Contact from "../models/Contact.js";
+import { makeContactController } from "../controllers/contactController.js";
+import { createContact } from "../services/contactService.js";
 test(
   "contact submission persists in MongoDB",
   { skip: !process.env.TEST_MONGO_URI },
@@ -14,13 +16,21 @@ test(
     });
     const email = `integration-${Date.now()}@example.com`;
     try {
-      const res = await request(createApp()).post("/api/contact").send({
-        name: "Integration Test",
-        email,
-        subject: "Persistence test",
-        service: "Other",
-        message: "Verify database persistence from the HTTP endpoint.",
-      });
+      const res = await request(
+        createApp({
+          controller: makeContactController(createContact, async () => ({
+            status: "sent",
+          })),
+        }),
+      )
+        .post("/api/contact")
+        .send({
+          name: "Integration Test",
+          email,
+          subject: "Persistence test",
+          service: "Other",
+          message: "Verify database persistence from the HTTP endpoint.",
+        });
       assert.equal(res.status, 201);
       const saved = await Contact.findOne({ email });
       assert.ok(saved);

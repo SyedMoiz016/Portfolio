@@ -2,7 +2,10 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import request from "supertest";
 import { createApp } from "../app.js";
-import { makeContactController } from "../controllers/contactController.js";
+import { makeContactController as buildContactController } from "../controllers/contactController.js";
+// Never send real emails from tests, even with local SMTP credentials.
+const makeContactController = (save) =>
+  buildContactController(save, async () => ({ status: "sent" }));
 const valid = {
   name: " Test Person ",
   email: "Test@example.com",

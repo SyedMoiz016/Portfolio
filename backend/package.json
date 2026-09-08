@@ -7,6 +7,7 @@
     "node": ">=22"
   },
   "scripts": {
+    "email:verify": "node scripts/verify-email.js",
     "start": "node server.js",
     "dev": "node --watch server.js",
     "test": "node --experimental-test-isolation=none --test",
@@ -19,7 +20,8 @@
     "express-rate-limit": "^8.0.0",
     "express-validator": "^7.2.0",
     "helmet": "^8.0.0",
-    "mongoose": "^8.0.0"
+    "mongoose": "^8.0.0",
+    "nodemailer": "^10.0.0"
   },
   "devDependencies": {
     "supertest": "^7.0.0"
