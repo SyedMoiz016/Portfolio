@@ -31,23 +31,25 @@ export function createApp({
     .map((s) => s.trim())
     .filter(Boolean);
 
-  app.use(
-    cors({
-      origin(origin, cb) {
-        if (!origin || allowed.includes(origin)) {
-          return cb(null, true);
-        }
+  const corsOptions = {
+    origin(origin, cb) {
+      if (!origin || allowed.includes(origin)) {
+        return cb(null, true);
+      }
 
-        const error = new Error("Origin denied");
-        error.code = "CORS_DENIED";
-        cb(error);
-      },
+      const error = new Error("Origin denied");
+      error.code = "CORS_DENIED";
+      cb(error);
+    },
 
-      methods: ["GET", "POST", "OPTIONS"],
-      allowedHeaders: ["Content-Type"],
-      maxAge: 600,
-    })
-  );
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+    maxAge: 600,
+  };
+
+  app.use(cors(corsOptions));
+
+  app.options("*", cors(corsOptions));
 
   app.use(
     rateLimit({
