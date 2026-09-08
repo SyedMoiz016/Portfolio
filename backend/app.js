@@ -49,8 +49,6 @@ export function createApp({
 
   app.use(cors(corsOptions));
 
-  app.options("*", cors(corsOptions));
-
   app.use(
     rateLimit({
       windowMs: 15 * 60 * 1000,
