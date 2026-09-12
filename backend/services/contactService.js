@@ -1,4 +1,6 @@
 import Contact from "../models/Contact.js";
+import { connectDB } from "../config/db.js";
+
 export async function createContact({
   name,
   email,
@@ -6,5 +8,13 @@ export async function createContact({
   service,
   message,
 }) {
-  return Contact.create({ name, email, subject, service, message });
+  await connectDB();
+
+  return Contact.create({
+    name,
+    email,
+    subject,
+    service,
+    message,
+  });
 }
