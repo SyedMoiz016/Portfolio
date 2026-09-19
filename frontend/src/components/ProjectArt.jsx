@@ -1,10 +1,15 @@
+import ProjectScreenshot from "./ProjectScreenshot";
+
 export default function ProjectArt({ project, large = false }) {
+  if (project.image && project.animatedPreview)
+    return <ProjectScreenshot project={project} />;
   if (project.image)
     return (
       <img
         className="project-image"
         src={project.image}
-        alt={project.name + " preview"}
+        alt={project.imageAlt || project.name + " preview"}
+        style={{ objectFit: project.imageFit || "cover" }}
         loading="lazy"
       />
     );

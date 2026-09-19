@@ -10,6 +10,8 @@ import { ArrowUpRight, ArrowUp, Menu, X, ArrowDown } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { profile } from "../data/content";
 import { MagneticButton } from "../animations";
+import { navigation } from "../data/navigation";
+import NavDropdown from "./NavDropdown";
 export function SectionHeading({ number, label, title, accent, children }) {
   return (
     <div className="section-heading" data-reveal>
@@ -27,7 +29,7 @@ export function SectionHeading({ number, label, title, accent, children }) {
 }
 export function GlowButton({
   children,
-  href = "#contact",
+  href = "/#contact",
   secondary = false,
   ...props
 }) {
@@ -45,30 +47,19 @@ export function GlowButton({
 }
 export function Navbar() {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("home");
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const isActive = (item) =>
+    item.target === "contact"
+      ? location.pathname === "/" && location.hash === "#contact"
+      : item.href === "/"
+        ? location.pathname === "/" && location.hash !== "#contact"
+        : location.pathname === item.href ||
+          (item.href === "/development" &&
+            location.pathname.startsWith("/projects/"));
   useEffect(() => {
     setOpen(false);
-    if (location.pathname !== "/") return;
-    const observer = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (e.isIntersecting) setActive(e.target.id);
-        }),
-      { rootMargin: "-20% 0px -65% 0px" },
-    );
-    const observeSections = () =>
-      document
-        .querySelectorAll("main section[id]")
-        .forEach((el) => observer.observe(el));
-    observeSections();
-    window.addEventListener("portfolio:ready", observeSections);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("portfolio:ready", observeSections);
-    };
-  }, [location]);
+  }, [location.pathname, location.hash]);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -85,27 +76,32 @@ export function Navbar() {
   return (
     <header className={`nav-wrap ${scrolled ? "scrolled" : ""}`}>
       <nav className="navbar" aria-label="Main navigation">
-        <Link to="/" className="logo" aria-label="Syed Moiz Kazmi home">
-          SMK<span>.</span>
+        <Link
+          to="/"
+          className="logo navbar-name"
+          aria-label="Syed Moiz Kazmi home"
+        >
+          Syed Moiz Kazmi
         </Link>
         <div className="nav-links">
-          {[
-            "Home",
-            "About",
-            "Skills",
-            "Services",
-            "Projects",
-            "Experience",
-            "Contact",
-          ].map((x) => (
-            <a
-              key={x}
-              className={active === x.toLowerCase() ? "active" : ""}
-              href={`/#${x.toLowerCase()}`}
-            >
-              {x}
-            </a>
-          ))}
+          {navigation.map((item) =>
+            item.children ? (
+              <NavDropdown
+                key={item.target}
+                item={item}
+                active={isActive(item)}
+              />
+            ) : (
+              <a
+                key={item.target}
+                className={isActive(item) ? "active" : ""}
+                aria-current={isActive(item) ? "location" : undefined}
+                href={item.href}
+              >
+                {item.label}
+              </a>
+            ),
+          )}
         </div>
         <a href="/#contact" className="nav-cta">
           Let's talk <ArrowUpRight size={15} />
@@ -129,25 +125,29 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
           >
-            {[
-              "Home",
-              "About",
-              "Skills",
-              "Services",
-              "Projects",
-              "Experience",
-              "Contact",
-            ].map((x, i) => (
-              <a
-                key={x}
-                href={`/#${x.toLowerCase()}`}
-                onClick={() => setOpen(false)}
-              >
-                <span>0{i + 1}</span>
-                {x}
-                <ArrowUpRight size={18} />
-              </a>
-            ))}
+            {navigation.map((item, i) =>
+              item.children ? (
+                <NavDropdown
+                  key={item.target}
+                  item={item}
+                  active={isActive(item)}
+                  index={i}
+                  onNavigate={() => setOpen(false)}
+                />
+              ) : (
+                <a
+                  key={item.target}
+                  href={item.href}
+                  className={isActive(item) ? "active" : ""}
+                  aria-current={isActive(item) ? "location" : undefined}
+                  onClick={() => setOpen(false)}
+                >
+                  <span>{String(i + 1).padStart(2, "0")}</span>
+                  {item.label}
+                  <ArrowUpRight size={18} />
+                </a>
+              ),
+            )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -318,7 +318,7 @@ export function Footer() {
 }
 export function ScrollCue() {
   return (
-    <a href="#about" className="scroll-cue">
+    <a href="#skills" className="scroll-cue">
       <span className="mouse">
         <i />
       </span>

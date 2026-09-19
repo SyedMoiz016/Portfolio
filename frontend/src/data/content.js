@@ -79,7 +79,13 @@ export const projects = [
     ],
     kind: "dashboard",
     color: "purple",
-    label: "Featured project · Preview concept",
+    label: "Featured project · Live website",
+    image: "/projects/socialgen-ai-dashboard.png",
+    imageFit: "contain",
+    animatedPreview: true,
+    imageAlt:
+      "SocialGen AI dashboard with campaign metrics, performance charts and AI usage statistics",
+    openLive: true,
     problem:
       "Social media teams often move between disconnected tools to plan campaigns and create content.",
     solution:
@@ -90,7 +96,7 @@ export const projects = [
       "Post scheduling",
       "Marketing workflows",
     ],
-    live: "",
+    live: "https://social-generation-ai-frontend.vercel.app/",
     repo: "",
     screenshots: [],
   },

@@ -16,15 +16,29 @@ export default function ProjectDetail() {
     return (
       <main className="not-found">
         <h1>Project not found.</h1>
-        <Link className="button" to="/#projects">
+        <Link className="button" to="/development">
           Back to projects <ArrowLeft size={18} />
         </Link>
       </main>
     );
-  const next = projects[(projects.indexOf(project) + 1) % projects.length];
+  const related = projects.filter((p) =>
+    ["AI", "Web", "Apps"].includes(project.category)
+      ? ["AI", "Web", "Apps"].includes(p.category)
+      : p.category === project.category,
+  );
+  const next = related[(related.indexOf(project) + 1) % related.length];
   return (
     <main className="project-detail section">
-      <Link to="/#projects" className="back-link">
+      <Link
+        to={
+          project.category === "Branding"
+            ? "/branding"
+            : project.category === "Design"
+              ? "/ebooks"
+              : "/development"
+        }
+        className="back-link"
+      >
         <ArrowLeft size={16} /> All projects
       </Link>
       <div className="eyebrow">{project.label}</div>

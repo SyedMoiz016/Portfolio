@@ -1,5 +1,6 @@
 import { writeFile } from "node:fs/promises";
 import { projects } from "../src/data/content.js";
+import { expertise } from "../src/data/expertise.js";
 const input = process.argv[2];
 if (!input)
   throw new Error(
@@ -17,7 +18,11 @@ if (
   throw new Error(
     "Use an HTTPS origin without paths, credentials or query parameters.",
   );
-const urls = ["/", ...projects.map((p) => `/projects/${p.slug}`)];
+const urls = [
+  "/",
+  ...expertise.map((item) => `/${item.path}`),
+  ...projects.map((p) => `/projects/${p.slug}`),
+];
 await writeFile(
   new URL("../public/sitemap.xml", import.meta.url),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((path) => `\n  <url><loc>${origin.origin}${path}</loc></url>`).join("")}\n</urlset>\n`,

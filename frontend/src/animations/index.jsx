@@ -35,37 +35,40 @@ export function useScrollReveal(ref) {
             },
           }),
         );
-        gsap.to(".hero-ghost", {
-          xPercent: -15,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".hero",
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          },
-        });
-        gsap.to(".editorial-cover", {
-          y: -25,
-          rotation: 2,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".ebooks",
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1,
-          },
-        });
-        gsap.from(".process-steps", {
-          clipPath: "inset(0 100% 0 0)",
-          duration: 1.1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".process-steps",
-            start: "top 92%",
-            once: true,
-          },
-        });
+        if (ref.current?.querySelector(".hero"))
+          gsap.to(".hero-ghost", {
+            xPercent: -15,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".hero",
+              start: "top top",
+              end: "bottom top",
+              scrub: 1,
+            },
+          });
+        if (ref.current?.querySelector(".ebooks"))
+          gsap.to(".editorial-cover", {
+            y: -25,
+            rotation: 2,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".ebooks",
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1,
+            },
+          });
+        if (ref.current?.querySelector(".process-steps"))
+          gsap.from(".process-steps", {
+            clipPath: "inset(0 100% 0 0)",
+            duration: 1.1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: ".process-steps",
+              start: "top 92%",
+              once: true,
+            },
+          });
       }, ref);
       return () => ctx.revert();
     });

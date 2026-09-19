@@ -1,35 +1,62 @@
 import { useRef, useState, useEffect } from "react";
 import { X, ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "../components/UI";
-const designs = [
-  {
-    title: "Monogram",
-    category: "Logo Design",
-    style: "logo-work",
-    word: "m.",
-  },
-  {
-    title: "Studio No. 04",
-    category: "Branding",
-    style: "identity-work",
-    word: "STUDIO\nNO. 04",
-  },
-  {
-    title: "Create something.",
-    category: "Social Media Design",
-    style: "social-work",
-    word: "MAKE\nYOUR\nMARK.",
-  },
-  {
-    title: "The quiet art",
-    category: "eBook Covers",
-    style: "cover-work",
-    word: "the\nquiet\nart.",
-  },
-];
-export default function DesignGallery() {
+import { designs } from "../data/designs";
+import { galleryFiltersByHash } from "../data/navigation";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+function DesignArtwork({ design, expanded = false }) {
+  if (design.image)
+    return (
+      <div
+        className={`design-art gallery-image ${expanded ? "gallery-image-expanded" : ""}`}
+        style={{ background: design.background }}
+      >
+        <img
+          src={design.image}
+          alt={design.alt}
+          width={design.width}
+          height={design.height}
+          loading={expanded ? "eager" : "lazy"}
+          decoding="async"
+        />
+      </div>
+    );
+  return (
+    <div className={`design-art ${design.style}`}>
+      <span>{design.word}</span>
+      <small>SMK — CONCEPT EXPLORATION</small>
+    </div>
+  );
+}
+export default function DesignGallery({
+  category,
+  title = "Beyond code.",
+  accent = "Into character.",
+}) {
   const [selected, setSelected] = useState(null);
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState(
+    () => galleryFiltersByHash[window.location.hash.slice(1)] || "All",
+  );
+  useEffect(() => {
+    const syncFilter = () => {
+      const category = galleryFiltersByHash[window.location.hash.slice(1)];
+      if (category) setFilter(category);
+    };
+    window.addEventListener("hashchange", syncFilter);
+    return () => window.removeEventListener("hashchange", syncFilter);
+  }, []);
+  const selectFilter = (category) => {
+    setFilter(category);
+    const target = Object.keys(galleryFiltersByHash).find(
+      (key) => galleryFiltersByHash[key] === category,
+    );
+    window.history.replaceState(window.history.state, "", `#${target}`);
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+  };
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => ScrollTrigger.refresh());
+    return () => cancelAnimationFrame(frame);
+  }, [filter]);
   const dialog = useRef();
   useEffect(() => {
     if (selected) {
@@ -44,36 +71,53 @@ export default function DesignGallery() {
   }, [selected]);
   return (
     <section className="section design-section" id="design">
+      {Object.keys(galleryFiltersByHash)
+        .filter((key) => key !== "design")
+        .map((key) => (
+          <span
+            key={key}
+            id={key}
+            className="gallery-anchor"
+            aria-hidden="true"
+          />
+        ))}
       <SectionHeading
         number="06"
         label="THE CREATIVE SIDE"
-        title="Beyond code."
-        accent="Into character."
+        title={title}
+        accent={accent}
       >
-        Identity, typography and visual storytelling. A collection of
-        self-initiated design concepts.
+        {category
+          ? `A focused collection of ${category.toLowerCase()} work and explorations.`
+          : "A selection of logo designs, branding and visual storytelling."}
       </SectionHeading>
-      <div className="gallery-filters">
-        {[
-          "All",
-          "Logo Design",
-          "Branding",
-          "Social Media Design",
-          "eBook Covers",
-        ].map((x) => (
-          <button
-            key={x}
-            aria-pressed={filter === x}
-            onClick={() => setFilter(x)}
-            className={filter === x ? "selected" : ""}
-          >
-            {x}
-          </button>
-        ))}
-      </div>
-      <div className="design-grid">
+      {!category && (
+        <div className="gallery-filters">
+          {[
+            "All",
+            "Logo Design",
+            "Branding",
+            "Social Media Design",
+            "eBook Covers",
+          ].map((x) => (
+            <button
+              key={x}
+              aria-pressed={filter === x}
+              onClick={() => selectFilter(x)}
+              className={filter === x ? "selected" : ""}
+            >
+              {x}
+            </button>
+          ))}
+        </div>
+      )}
+      <div className="design-grid logo-portfolio-grid">
         {designs
-          .filter((d) => filter === "All" || d.category === filter)
+          .filter((d) =>
+            category
+              ? d.category === category
+              : filter === "All" || d.category === filter,
+          )
           .map((d) => (
             <button
               key={d.title}
@@ -81,10 +125,7 @@ export default function DesignGallery() {
               onClick={() => setSelected(d)}
               aria-label={`View ${d.title}, ${d.category}`}
             >
-              <div className={`design-art ${d.style}`}>
-                <span>{d.word}</span>
-                <small>SMK — CONCEPT EXPLORATION</small>
-              </div>
+              <DesignArtwork design={d} />
               <div className="design-caption">
                 <span>
                   {d.title}
@@ -120,12 +161,12 @@ export default function DesignGallery() {
             >
               <X />
             </button>
-            <div className={`design-art ${selected.style}`}>
-              <span>{selected.word}</span>
-              <small>SMK — CONCEPT EXPLORATION</small>
-            </div>
+            <DesignArtwork design={selected} expanded />
             <h3>{selected.title}</h3>
-            <p>{selected.category} · Self-initiated concept</p>
+            <p>
+              {selected.category}
+              {!selected.image && " · Self-initiated concept"}
+            </p>
           </div>
         )}
       </dialog>

@@ -4,6 +4,23 @@ import { useReducedMotion, useInView } from "framer-motion";
 import * as THREE from "three";
 function Stars({ reduced }) {
   const ref = useRef();
+  const starPixels = useMemo(() => {
+    const size = 64;
+    const pixels = new Uint8Array(size * size * 4);
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        const radius = Math.hypot(
+          ((x + 0.5) / size - 0.5) * 2,
+          ((y + 0.5) / size - 0.5) * 2,
+        );
+        const fade = Math.max(0, 1 - radius);
+        const offset = (y * size + x) * 4;
+        pixels[offset] = pixels[offset + 1] = pixels[offset + 2] = 255;
+        pixels[offset + 3] = Math.round(255 * fade * fade * (3 - 2 * fade));
+      }
+    }
+    return pixels;
+  }, []);
   const points = useMemo(() => {
     const a = new Float32Array(1500);
     let seed = 71;
@@ -31,9 +48,18 @@ function Stars({ reduced }) {
         size={0.024}
         transparent
         opacity={0.56}
+        alphaTest={0.01}
         sizeAttenuation
         depthWrite={false}
-      />
+      >
+        <dataTexture
+          attach="map"
+          args={[starPixels, 64, 64, THREE.RGBAFormat]}
+          magFilter={THREE.LinearFilter}
+          minFilter={THREE.LinearFilter}
+          needsUpdate
+        />
+      </pointsMaterial>
     </points>
   );
 }

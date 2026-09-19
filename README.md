@@ -202,3 +202,16 @@ Notifications are best-effort, with a bounded wait before the HTTP response. An 
 From `backend`, run `npm run email:verify`. This checks SMTP connection and authentication without sending an email or writing a contact. Gmail App Password display spaces are removed automatically; passwords for other SMTP providers are preserved. Diagnostics show fixed guidance rather than raw SMTP errors or credentials.
 
 If Gmail rejects authentication, create a new App Password while signed into the account specified by `SMTP_USER`, replace `SMTP_PASS` in `backend/.env`, and rerun verification. Restart the backend manually after editing `.env` because Node watch mode may not restart for environment-file changes. If a password was exposed in a screenshot, revoke it and replace it locally.
+
+## Portfolio pages
+
+The home page contains the personal introduction, expertise links and technology skills. Work is grouped into dedicated routes:
+
+- `/logo-design`: logo gallery only.
+- `/social-media-design`: social media design gallery.
+- `/branding`: brand identity work.
+- `/ebooks`: eBook services and book design work; navbar dropdown links jump to individual services.
+- `/development`: web, app and AI projects together.
+- `/#contact`: the contact form at the bottom of Home. The old `/contact` URL redirects here.
+
+Edit `frontend/src/data/expertise.js` for the home-page skill links and page introductions. Gallery categories in `frontend/src/data/designs.js` control the work shown on each design page. The sitemap generator includes these routes. The existing Vercel SPA rewrite supports opening or refreshing each page directly.

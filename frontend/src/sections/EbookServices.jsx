@@ -1,3 +1,4 @@
+import { ebookServices } from "../data/ebookServices";
 import { ArrowRight } from "lucide-react";
 import { GlowButton } from "../components/UI";
 export default function EbookServices() {
@@ -35,18 +36,18 @@ export default function EbookServices() {
           books.
         </p>
         <div className="ebook-list">
-          {[
-            "eBook Formatting",
-            "Paperback Formatting",
-            "Hardcover Formatting",
-            "eBook Cover Design",
-            "Layout Design",
-            "Amazon KDP-ready Formatting",
-          ].map((x) => (
-            <span key={x}>
-              <ArrowRight size={15} />
-              {x}
-            </span>
+          {ebookServices.map((service) => (
+            <div
+              key={service.target}
+              id={service.target}
+              className="ebook-service"
+            >
+              <h3>
+                <ArrowRight size={15} />
+                {service.label}
+              </h3>
+              <p>{service.description}</p>
+            </div>
           ))}
         </div>
         <GlowButton secondary>Let's talk about your book</GlowButton>

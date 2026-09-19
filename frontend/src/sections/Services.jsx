@@ -34,7 +34,7 @@ export default function Services() {
                 </div>
                 <h3>{title}</h3>
                 <p>{description}</p>
-                <a href="#contact" aria-label={`Discuss ${title}`}>
+                <a href="/#contact" aria-label={`Discuss ${title}`}>
                   Let's build <ArrowUpRight size={18} />
                 </a>
               </div>

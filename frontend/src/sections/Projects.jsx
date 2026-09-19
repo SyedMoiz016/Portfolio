@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { projects } from "../data/content";
 import ProjectArt from "../components/ProjectArt";
 import { SectionHeading } from "../components/UI";
+import { projectFiltersByHash } from "../data/navigation";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 export function ProjectCard({ project, index }) {
+  const opensLive = project.openLive && project.live;
+  const CardLink = opensLive ? "a" : Link;
+  const linkProps = opensLive
+    ? { href: project.live, target: "_blank", rel: "noopener noreferrer" }
+    : { to: `/projects/${project.slug}` };
   return (
-    <Link
-      to={`/projects/${project.slug}`}
+    <CardLink
+      {...linkProps}
       className={`project-card ${index === 0 ? "featured" : ""}`}
     >
       <div className="project-preview">
@@ -34,17 +41,55 @@ export function ProjectCard({ project, index }) {
         </div>
         <span className="project-label">{project.label}</span>
       </div>
-    </Link>
+    </CardLink>
   );
 }
-export default function Projects() {
-  const [filter, setFilter] = useState("All");
+export default function Projects({
+  categories = ["Web", "Apps", "AI", "Design", "Branding"],
+}) {
+  const available = projects.filter((p) => categories.includes(p.category));
+  const [filter, setFilter] = useState(() => {
+    const initial = projectFiltersByHash[window.location.hash.slice(1)];
+    return categories.includes(initial) ? initial : "All";
+  });
+  useEffect(() => {
+    const syncFilter = () => {
+      const category = projectFiltersByHash[window.location.hash.slice(1)];
+      if (category === "All" || categories.includes(category))
+        setFilter(category);
+    };
+    window.addEventListener("hashchange", syncFilter);
+    return () => window.removeEventListener("hashchange", syncFilter);
+  }, []);
+  const selectFilter = (category) => {
+    setFilter(category);
+    const target = Object.keys(projectFiltersByHash).find(
+      (key) => projectFiltersByHash[key] === category,
+    );
+    window.history.replaceState(window.history.state, "", `#${target}`);
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+  };
+  useEffect(() => {
+    // Recalculate section positions after the filtering transition finishes.
+    const timer = setTimeout(() => ScrollTrigger.refresh(), 450);
+    return () => clearTimeout(timer);
+  }, [filter]);
   const reduced = useReducedMotion();
-  const visible = projects.filter(
+  const visible = available.filter(
     (p) => filter === "All" || p.category === filter,
   );
   return (
     <section id="projects" className="section projects">
+      {Object.keys(projectFiltersByHash)
+        .filter((key) => key !== "projects")
+        .map((key) => (
+          <span
+            key={key}
+            id={key}
+            className="gallery-anchor"
+            aria-hidden="true"
+          />
+        ))}
       <SectionHeading
         number="04"
         label="SELECTED WORK"
@@ -55,15 +100,15 @@ export default function Projects() {
         Crafted with care.
       </SectionHeading>
       <div className="project-filters" aria-label="Filter projects">
-        {["All", "Web", "Apps", "AI", "Design", "Branding"].map((x) => (
+        {["All", ...categories].map((x) => (
           <button
             key={x}
             aria-pressed={filter === x}
             className={filter === x ? "selected" : ""}
-            onClick={() => setFilter(x)}
+            onClick={() => selectFilter(x)}
           >
             {x}
-            {x === "All" && <sup>05</sup>}
+            {x === "All" && <sup>{available.length}</sup>}
           </button>
         ))}
         <span>

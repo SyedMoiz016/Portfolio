@@ -1,17 +1,13 @@
 import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import Contact from "../sections/Contact";
 import { useScrollReveal } from "../animations";
-import Projects from "../sections/Projects";
-import DesignGallery from "../sections/DesignGallery";
-import Hero from "../sections/Hero";
+import ExpertiseLinks from "../sections/ExpertiseLinks";
 import About from "../sections/About";
 import Skills from "../sections/Skills";
-import Services from "../sections/Services";
-import ExperienceTimeline from "../sections/ExperienceTimeline";
-import EbookServices from "../sections/EbookServices";
-import WorkProcess from "../sections/WorkProcess";
-import Contact from "../sections/Contact";
 export default function Home() {
   const root = useRef();
+  const location = useLocation();
   useScrollReveal(root);
   useEffect(() => {
     window.dispatchEvent(new Event("portfolio:ready"));
@@ -24,38 +20,12 @@ export default function Home() {
       );
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [location.hash]);
   return (
     <main ref={root}>
-      <Hero />
-      <div
-        className="tech-marquee"
-        aria-label="React, Node.js, MongoDB, Express.js, Tailwind CSS, creative development"
-      >
-        <div>
-          {[
-            "REACT",
-            "NODE.JS",
-            "MONGODB",
-            "EXPRESS.JS",
-            "TAILWIND CSS",
-            "CREATIVE DEVELOPMENT",
-          ].map((x) => (
-            <span key={x}>
-              {x}
-              <i>✳</i>
-            </span>
-          ))}
-        </div>
-      </div>
       <About />
+      <ExpertiseLinks />
       <Skills />
-      <Services />
-      <Projects />
-      <ExperienceTimeline />
-      <DesignGallery />
-      <EbookServices />
-      <WorkProcess />
       <Contact />
     </main>
   );
