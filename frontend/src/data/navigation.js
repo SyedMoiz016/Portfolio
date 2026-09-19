@@ -1,3 +1,4 @@
+import { brandingServices } from "./brandingServices";
 import { ebookServices } from "./ebookServices";
 
 export const galleryFiltersByHash = {
@@ -15,7 +16,15 @@ export const navigation = [
     target: "social-media-design",
     href: "/social-media-design",
   },
-  { label: "Branding", target: "branding", href: "/branding" },
+  {
+    label: "Branding",
+    target: "branding",
+    href: "/branding",
+    children: brandingServices.map((service) => ({
+      ...service,
+      href: "/branding/" + service.target,
+    })),
+  },
   {
     label: "eBook",
     target: "ebooks",

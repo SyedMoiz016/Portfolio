@@ -1,6 +1,7 @@
 import { writeFile } from "node:fs/promises";
 import { projects } from "../src/data/content.js";
 import { expertise } from "../src/data/expertise.js";
+import { brandingServices } from "../src/data/brandingServices.js";
 const input = process.argv[2];
 if (!input)
   throw new Error(
@@ -21,6 +22,7 @@ if (
 const urls = [
   "/",
   ...expertise.map((item) => `/${item.path}`),
+  ...brandingServices.map((service) => `/branding/${service.target}`),
   ...projects.map((p) => `/projects/${p.slug}`),
 ];
 await writeFile(

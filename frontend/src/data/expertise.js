@@ -23,7 +23,7 @@ export const expertise = [
     path: "ebooks",
     title: "eBook Services",
     description:
-      "Ghostwriting, editing, proofreading, covers, formatting, publishing and marketing support.",
+      "Cover design, front matter, styled chapter pages and carefully placed visuals for your eBook.",
   },
   {
     path: "development",

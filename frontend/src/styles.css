@@ -4409,3 +4409,40 @@ main,
     flex-direction: column;
   }
 }
+.branding-services {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.branding-service {
+  padding: 28px;
+  border: 1px solid var(--border);
+  background: #0b071280;
+  border-radius: 5px;
+}
+.branding-service h2 {
+  font-size: 23px;
+  margin-bottom: 16px;
+}
+.branding-service p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #aaa5b2;
+}
+.branding-service a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  font-size: 13px;
+  color: #c4a8df;
+}
+.branding-service:target {
+  border-color: #b394d966;
+  background: #ac82d910;
+}
+@media (max-width: 800px) {
+  .branding-services {
+    grid-template-columns: 1fr;
+  }
+}

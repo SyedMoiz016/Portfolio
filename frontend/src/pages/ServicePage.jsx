@@ -1,3 +1,4 @@
+import { brandingServices } from "../data/brandingServices";
 import { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
@@ -11,7 +12,10 @@ import Contact from "../sections/Contact";
 export default function ServicePage({ page }) {
   const root = useRef(null);
   const location = useLocation();
-  const service = expertise.find((item) => item.path === page) || {
+  const brandingService = brandingServices.find((item) => item.target === page);
+  const service = (brandingService
+    ? { ...brandingService, title: brandingService.label }
+    : expertise.find((item) => item.path === page)) || {
     title: "Let's work together",
     description: "Tell me about your project and the service you need.",
   };
@@ -38,9 +42,12 @@ export default function ServicePage({ page }) {
   return (
     <main ref={root} className="service-page">
       <div className="section service-page-intro">
-        <Link to="/#expertise" className="back-link">
+        <Link
+          to={brandingService ? "/branding" : "/#expertise"}
+          className="back-link"
+        >
           <ArrowLeft size={16} />
-          All skills
+          {brandingService ? "All branding services" : "All skills"}
         </Link>
         <div className="eyebrow">
           SYED MOIZ KAZMI /{" "}
@@ -49,14 +56,51 @@ export default function ServicePage({ page }) {
         <h1>{service.title}</h1>
         <p>{service.description}</p>
       </div>
-      {service.category && (
+      {page === "branding" && (
+        <section
+          className="section branding-services"
+          aria-label="Branding services"
+        >
+          {brandingServices.map((item) => (
+            <article
+              id={item.target}
+              key={item.target}
+              className="branding-service"
+              data-reveal
+            >
+              <h2>{item.label}</h2>
+              <p>{item.description}</p>
+              <Link to={"/branding/" + item.target}>
+                Explore {item.label.toLowerCase()} <ArrowUpRight size={16} />
+              </Link>
+            </article>
+          ))}
+        </section>
+      )}
+      {brandingService && (
+        <section
+          className="section"
+          aria-label={brandingService.label + " services"}
+        >
+          <div className="eyebrow">A CLOSER LOOK</div>
+          <div className="branding-services">
+            {brandingService.details.map((detail, index) => (
+              <article key={detail} className="branding-service" data-reveal>
+                <span className="eyebrow">0{index + 1}</span>
+                <h2>{detail}</h2>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+      {service.category && page !== "branding" && (
         <DesignGallery
           category={service.category}
           title={service.title}
           accent="portfolio."
         />
       )}
-      {page === "branding" && <Projects categories={["Branding"]} />}
+      {page === "brand-identity" && <Projects categories={["Branding"]} />}
       {page === "ebooks" && (
         <>
           <EbookServices />

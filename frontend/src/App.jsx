@@ -17,6 +17,7 @@ import {
   BackToTop,
 } from "./components/UI";
 const ServicePage = lazy(() => import("./pages/ServicePage"));
+import { brandingServices } from "./data/brandingServices";
 const Home = lazy(() => import("./pages/Home"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
 const SpaceBackground = lazy(() => import("./components/SpaceBackground"));
@@ -87,6 +88,15 @@ export default function App() {
                     key={page}
                     path={"/" + page}
                     element={<ServicePage key={page} page={page} />}
+                  />
+                ))}
+                {brandingServices.map((service) => (
+                  <Route
+                    key={service.target}
+                    path={"/branding/" + service.target}
+                    element={
+                      <ServicePage key={service.target} page={service.target} />
+                    }
                   />
                 ))}
                 <Route path="/projects/:slug" element={<ProjectDetail />} />

@@ -55,6 +55,8 @@ export function Navbar() {
       : item.href === "/"
         ? location.pathname === "/" && location.hash !== "#contact"
         : location.pathname === item.href ||
+          (item.href === "/branding" &&
+            location.pathname.startsWith("/branding/")) ||
           (item.href === "/development" &&
             location.pathname.startsWith("/projects/"));
   useEffect(() => {
