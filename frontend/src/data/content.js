@@ -165,28 +165,32 @@ export const projects = [
     screenshots: [],
   },
   {
-    slug: "beyond-the-ordinary",
-    name: "Beyond the Ordinary",
+    slug: "the-silent-promise",
+    name: "The Silent Promise",
     category: "Design",
-    type: "Editorial & eBook cover concept",
+    type: "Novel cover design",
     description:
-      "An editorial direction that gives meaningful ideas room to breathe.",
-    tags: ["eBook Design", "Layout Design", "Typography"],
+      "A warm, atmospheric novel cover combining a tranquil lake, soft moonlight and delicate floral details.",
+    tags: ["Book Cover Design", "Typography", "Cover Artwork"],
     kind: "book",
     color: "sand",
-    label: "Self-initiated editorial concept",
+    label: "Book cover design",
+    image: "/designs/book-covers/the-silent-promise.jpg",
+    imageAlt:
+      "The Silent Promise novel cover with a golden lake, crescent moon and floral details",
+    imageFit: "contain",
     problem:
-      "A book cover must communicate its tone with very little visual information.",
+      "Communicate a quiet, emotional tone through the cover artwork and title treatment.",
     solution:
-      "Expressive typography and generous space establish a confident editorial direction.",
+      "A warm lake scene, delicate botanical details and expressive script typography create a soft, reflective mood.",
     features: [
-      "Cover concept",
-      "Editorial hierarchy",
-      "Print and digital direction",
+      "Atmospheric lake artwork",
+      "Expressive title typography",
+      "Coordinated floral details",
     ],
     live: "",
     repo: "",
-    screenshots: [],
+    screenshots: ["/designs/book-covers/the-silent-promise.jpg"],
   },
 ];
 export const journey = [

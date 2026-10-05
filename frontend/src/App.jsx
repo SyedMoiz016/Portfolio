@@ -99,6 +99,18 @@ export default function App() {
                     }
                   />
                 ))}
+                <Route
+                  path="/ebooks/front-matter"
+                  element={
+                    <ServicePage key="front-matter" page="front-matter" />
+                  }
+                />
+                <Route
+                  path="/ebooks/chapter-pages"
+                  element={
+                    <ServicePage key="chapter-pages" page="chapter-pages" />
+                  }
+                />
                 <Route path="/projects/:slug" element={<ProjectDetail />} />
                 <Route
                   path="*"

@@ -28,7 +28,9 @@ export default function ProjectDetail() {
   );
   const next = related[(related.indexOf(project) + 1) % related.length];
   return (
-    <main className="project-detail section">
+    <main
+      className={`project-detail section ${project.kind === "book" ? "book-project-detail" : ""}`}
+    >
       <Link
         to={
           project.category === "Branding"

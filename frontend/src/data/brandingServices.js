@@ -14,6 +14,7 @@ export const brandingServices = [
   {
     label: "Brand Guide",
     target: "brand-guide",
+    category: "Brand Guide",
     details: [
       "Logo usage, spacing and sizing",
       "Color and typography specifications",
@@ -25,6 +26,7 @@ export const brandingServices = [
   {
     label: "Business Card",
     target: "business-card",
+    category: "Business Card",
     details: [
       "Front and back layout design",
       "Clear contact information and hierarchy",

@@ -7,12 +7,18 @@ export const ebookServices = [
   {
     label: "Front Matter",
     target: "ebook-front-matter",
+    path: "front-matter",
+    href: "/ebooks/front-matter",
+    category: "Front Matter",
     description:
       "Title page, copyright page, and a clickable table of contents.",
   },
   {
     label: "Chapter Pages",
     target: "ebook-chapter-pages",
+    path: "chapter-pages",
+    href: "/ebooks/chapter-pages",
+    category: "Chapter Pages",
     description: "Styled headers or title breaks to separate sections.",
   },
   {

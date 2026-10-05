@@ -70,7 +70,10 @@ export default function DesignGallery({
     if (dialog.current?.open) dialog.current.close();
   }, [selected]);
   return (
-    <section className="section design-section" id="design">
+    <section
+      className={`section design-section ${["Brand Guide", "Branding", "Business Card", "eBook Covers"].includes(category) ? "brand-guide-gallery" : ""}`}
+      id="design"
+    >
       {Object.keys(galleryFiltersByHash)
         .filter((key) => key !== "design")
         .map((key) => (
@@ -162,6 +165,24 @@ export default function DesignGallery({
               <X />
             </button>
             <DesignArtwork design={selected} expanded />
+            {[
+              "Brand Guide",
+              "Branding",
+              "Business Card",
+              "eBook Covers",
+              "Front Matter",
+              "Chapter Pages",
+            ].includes(selected.category) &&
+              selected.image && (
+                <a
+                  className="guide-original-link"
+                  href={selected.image}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open full-resolution image <ArrowUpRight size={16} />
+                </a>
+              )}
             <h3>{selected.title}</h3>
             <p>
               {selected.category}

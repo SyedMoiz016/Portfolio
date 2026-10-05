@@ -31,7 +31,7 @@ export const navigation = [
     href: "/ebooks",
     children: ebookServices.map((service) => ({
       ...service,
-      href: "/ebooks#" + service.target,
+      href: service.href || "/ebooks#" + service.target,
     })),
   },
   {

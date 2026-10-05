@@ -21,6 +21,8 @@ if (
   );
 const urls = [
   "/",
+  "/ebooks/front-matter",
+  "/ebooks/chapter-pages",
   ...expertise.map((item) => `/${item.path}`),
   ...brandingServices.map((service) => `/branding/${service.target}`),
   ...projects.map((p) => `/projects/${p.slug}`),

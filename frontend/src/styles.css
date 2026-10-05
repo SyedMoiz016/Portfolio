@@ -4446,3 +4446,52 @@ main,
     grid-template-columns: 1fr;
   }
 }
+.brand-guide-gallery .design-art.gallery-image:not(.gallery-image-expanded) {
+  aspect-ratio: 2 / 3;
+}
+.guide-original-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+  color: #d3b5f0;
+  font-size: 13px;
+}
+.guide-original-link:hover {
+  color: #fff;
+}
+
+.editorial-cover.featured-book-cover {
+  width: 180px;
+  height: auto;
+  padding: 0;
+  background: #101b20;
+  border-left-color: #26383c;
+}
+.featured-book-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Compact book artwork, framed by the original project preview stage. */
+.book-image-preview > img {
+  display: block;
+  width: auto;
+  height: 70%;
+  max-width: 65%;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 2px;
+  transform: rotate(-6deg);
+  box-shadow: 14px 18px 35px #0006;
+}
+.book-project-detail .detail-art .book-image-preview {
+  height: clamp(300px, 40vw, 440px);
+}
+.book-project-detail .detail-screens > img {
+  width: min(100%, 300px);
+  height: auto;
+  display: block;
+  margin: 28px auto;
+}

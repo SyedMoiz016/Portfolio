@@ -1,3 +1,4 @@
+import { ebookServices } from "../data/ebookServices";
 import { brandingServices } from "../data/brandingServices";
 import { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -13,9 +14,12 @@ export default function ServicePage({ page }) {
   const root = useRef(null);
   const location = useLocation();
   const brandingService = brandingServices.find((item) => item.target === page);
-  const service = (brandingService
-    ? { ...brandingService, title: brandingService.label }
-    : expertise.find((item) => item.path === page)) || {
+  const ebookService = ebookServices.find((item) => item.path === page);
+  const service = (ebookService
+    ? { ...ebookService, title: ebookService.label }
+    : brandingService
+      ? { ...brandingService, title: brandingService.label }
+      : expertise.find((item) => item.path === page)) || {
     title: "Let's work together",
     description: "Tell me about your project and the service you need.",
   };
@@ -43,11 +47,21 @@ export default function ServicePage({ page }) {
     <main ref={root} className="service-page">
       <div className="section service-page-intro">
         <Link
-          to={brandingService ? "/branding" : "/#expertise"}
+          to={
+            ebookService
+              ? "/ebooks"
+              : brandingService
+                ? "/branding"
+                : "/#expertise"
+          }
           className="back-link"
         >
           <ArrowLeft size={16} />
-          {brandingService ? "All branding services" : "All skills"}
+          {ebookService
+            ? "All eBook services"
+            : brandingService
+              ? "All branding services"
+              : "All skills"}
         </Link>
         <div className="eyebrow">
           SYED MOIZ KAZMI /{" "}

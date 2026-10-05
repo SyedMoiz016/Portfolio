@@ -1,6 +1,20 @@
 import ProjectScreenshot from "./ProjectScreenshot";
 
 export default function ProjectArt({ project, large = false }) {
+  if (project.image && project.kind === "book")
+    return (
+      <div
+        className={`project-art book sand book-image-preview ${large ? "large" : ""}`}
+      >
+        <img
+          src={project.image}
+          alt={project.imageAlt || project.name + " cover"}
+          width={736}
+          height={1104}
+          loading="lazy"
+        />
+      </div>
+    );
   if (project.image && project.animatedPreview)
     return <ProjectScreenshot project={project} />;
   if (project.image)

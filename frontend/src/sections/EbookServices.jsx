@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ebookServices } from "../data/ebookServices";
 import { ArrowRight } from "lucide-react";
 import { GlowButton } from "../components/UI";
@@ -5,19 +6,14 @@ export default function EbookServices() {
   return (
     <section id="ebooks" className="section ebooks">
       <div className="ebook-visual" data-reveal>
-        <div className="editorial-cover">
-          <small>THE ART OF</small>
-          <strong>
-            thoughtful
-            <br />
-            <em>pages.</em>
-          </strong>
-          <span>
-            DESIGNED TO BE READ.
-            <br />
-            CRAFTED TO BE KEPT.
-          </span>
-          <span className="cover-symbol">✳</span>
+        <div className="editorial-cover featured-book-cover">
+          <img
+            src="/designs/book-covers/focus-discipline-consistency.jpg"
+            alt="Focus, Discipline, Consistency book cover featuring a mountain road at sunset"
+            width={736}
+            height={1472}
+            loading="lazy"
+          />
         </div>
         <div className="ebook-caption">FROM FIRST PAGE TO FINAL IMPRESSION</div>
       </div>
@@ -44,7 +40,13 @@ export default function EbookServices() {
             >
               <h3>
                 <ArrowRight size={15} />
-                {service.label}
+                {service.href ? (
+                  <Link to={service.href}>
+                    {service.label} <ArrowRight size={15} />
+                  </Link>
+                ) : (
+                  service.label
+                )}
               </h3>
               <p>{service.description}</p>
             </div>
