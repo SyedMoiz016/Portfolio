@@ -4495,3 +4495,104 @@ main,
   display: block;
   margin: 28px auto;
 }
+
+/* Mobile home: a readable introduction followed by a compact portrait. */
+@media (max-width: 800px) {
+  .hero.hero-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    padding: 104px 24px 48px;
+  }
+  .hero-profile .hero-content {
+    display: contents;
+  }
+  .hero-profile .availability {
+    order: 0;
+    align-self: flex-start;
+    margin: 0 0 20px;
+    font-size: 9px;
+    letter-spacing: 0.8px;
+  }
+  .hero-profile .hero-intro {
+    order: 1;
+    margin: 0 0 14px;
+    font-size: 14px;
+  }
+  .hero-profile .hero-heading {
+    order: 2;
+    display: block;
+    width: 100%;
+  }
+  .hero-profile h1 {
+    font-size: clamp(32px, 8.2vw, 48px);
+    line-height: 1.12;
+    letter-spacing: -1.3px;
+    overflow-wrap: normal;
+  }
+  .hero-profile .hero-visual,
+  .hero-profile .hero-bottom,
+  .hero-profile .hero-ghost {
+    display: none;
+  }
+  .hero-profile .role-line {
+    order: 3;
+    margin: 20px 0 28px;
+    font-size: 14px;
+    min-height: 24px;
+  }
+  .hero-profile .hero-portrait {
+    order: 4;
+    width: 100%;
+    margin-bottom: 32px;
+  }
+  .hero-profile .hero-portrait .about-portrait {
+    width: min(100%, 240px);
+    max-width: 240px;
+  }
+  .hero-profile .hero-portrait .hero-actions {
+    width: 100%;
+    max-width: 420px;
+    margin-top: 22px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .hero-profile .hero-portrait .hero-actions .button {
+    min-height: 48px;
+    padding: 10px;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .hero-profile .about-copy {
+    order: 5;
+    min-width: 0;
+  }
+  .hero-profile .about-copy .lead {
+    font-size: 19px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .hero-profile .about-copy p {
+    font-size: 15px;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+  .hero-profile .qualities {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 12px;
+    margin-top: 24px;
+  }
+  .hero-profile .qualities > div {
+    font-size: 12px;
+  }
+}
+@media (max-width: 360px) {
+  .hero.hero-profile { padding-inline: 20px; }
+  .hero-profile .hero-portrait .hero-actions {
+    grid-template-columns: 1fr;
+  }
+}
