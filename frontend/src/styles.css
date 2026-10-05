@@ -4596,3 +4596,34 @@ main,
     grid-template-columns: 1fr;
   }
 }
+
+/* Keep mobile grid tracks and form controls inside the viewport. */
+@media (max-width: 800px) {
+  html, body, #root { width: 100%; min-width: 0; }
+  .nav-wrap { left: 12px; right: 12px; width: auto; padding: 0; }
+  .navbar { width: 100%; min-width: 0; gap: 12px; padding: 10px 14px; }
+  .navbar .navbar-name { min-width: 0; font-size: 16px; letter-spacing: -0.5px; }
+  .navbar .menu-toggle { flex: 0 0 44px; width: 44px; height: 44px; align-items: center; justify-content: center; padding: 10px; }
+  .mobile-menu { max-height: calc(100svh - 90px); overflow-y: auto; }
+  .section.contact { width: calc(100% - 40px); grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .contact > *, .contact-form, .contact-form .form-row, .contact-form label { min-width: 0; max-width: 100%; }
+  .contact-form { width: 100%; padding: 20px; }
+  .contact-form .form-row { grid-template-columns: minmax(0, 1fr); }
+  .contact-form input, .contact-form select, .contact-form textarea {
+    width: 100%; min-width: 0; max-width: 100%; font-size: 16px;
+  }
+  .contact-form .form-submit { display: flex; flex-direction: column-reverse; align-items: stretch; gap: 14px; }
+  .contact-form .form-submit .button { width: 100%; min-width: 0; min-height: 48px; }
+  .contact-form .form-submit > span { white-space: normal; overflow-wrap: anywhere; text-align: center; line-height: 1.6; }
+  .contact-copy h2 { font-size: clamp(30px, 8vw, 44px); overflow-wrap: anywhere; }
+  .contact-availability { flex-wrap: wrap; }
+  .hero-profile .portrait-name { padding: 20px; justify-content: flex-start; }
+  .hero-profile .portrait-kicker { font-size: 8px; line-height: 1.5; letter-spacing: 0.7px; margin-bottom: 0; }
+  .hero-profile .portrait-kicker svg { flex-shrink: 0; width: 18px; }
+  .hero-profile .portrait-name-text { font-size: 36px; line-height: 1.06; letter-spacing: -1px; margin-top: 18px; }
+  .hero-profile .portrait-description { font-size: 12px; line-height: 1.5; margin-top: 14px; }
+  .hero-profile .portrait-hint { font-size: 9px; line-height: 1.5; padding-top: 12px; }
+  .hero-profile .portrait-photo-caption { padding: 36px 16px 16px; font-size: 16px; }
+  .hero-profile .portrait-photo-caption small { font-size: 10px; }
+  .hero-profile .portrait-toggle-caption { font-size: 11px; line-height: 1.5; }
+}
